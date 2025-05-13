@@ -7,6 +7,8 @@ function Search() {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
     const isAuthenticated = token !== null;
+    const [loading, setLoading] = useState(true);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -27,7 +29,7 @@ function Search() {
     useEffect(() => {
         const fetchRequests = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/offering/get-offers`, {
+                const response = await fetch(`${apiUrl}/api/offering/get-offers`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -49,7 +51,7 @@ function Search() {
         if (isAuthenticated) {
             fetchRequests();
         }
-    }, [isAuthenticated, token]);
+    }, [isAuthenticated, token, apiUrl]);
 
     const handleSort = (type) => {
         let sortedRequests = [...requests];

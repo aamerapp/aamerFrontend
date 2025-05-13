@@ -21,6 +21,8 @@ function UserDashboard() {
         completedRequests: 0,
         pendingOffers: 0
     });
+    const [loading, setLoading] = useState(true);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // Check authentication on component mount
     useEffect(() => {
@@ -42,7 +44,7 @@ function UserDashboard() {
             setIsLoading(true);
             
             // Fetch user requests
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/requests/get-user-requests/${userId}`, {
+            const response = await fetch(`${apiUrl}/api/requests/get-user-requests/${userId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

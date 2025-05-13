@@ -18,11 +18,12 @@ function ProviderBookings() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [activeTab, setActiveTab] = useState('all'); // Options: 'all', 'request', 'offer'
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const fetchProviderBookings = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/get-provider-bookings/${providerId}`, {
+                const response = await fetch(`${apiUrl}/api/booking/get-provider-bookings/${providerId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -46,7 +47,7 @@ function ProviderBookings() {
         if (isAuthenticated) {
             fetchProviderBookings();
         }
-    }, [providerId, token, isAuthenticated]);
+    }, [providerId, token, isAuthenticated, apiUrl]);
 
     const getStatusColor = (status) => {
         switch (status.toLowerCase()) {

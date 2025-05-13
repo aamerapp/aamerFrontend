@@ -14,6 +14,7 @@ const MyServices = () => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         fetchOfferings();
@@ -36,7 +37,7 @@ const MyServices = () => {
     const fetchOfferings = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/offering/get-offers-by-provider/${userId}/${selectedStatus}`, {
+            const response = await fetch(`${apiUrl}/api/offering/get-offers-by-provider/${userId}/${selectedStatus}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

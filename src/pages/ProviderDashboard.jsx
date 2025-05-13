@@ -7,6 +7,8 @@ function ProviderDashboard() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // Check authentication on component mount
     useEffect(() => {

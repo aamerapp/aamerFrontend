@@ -25,11 +25,12 @@ function UserBookings() {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const fetchUserBookings = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/get-user-bookings/${userId}`, {
+                const response = await fetch(`${apiUrl}/api/booking/get-user-bookings/${userId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -53,7 +54,7 @@ function UserBookings() {
         if (isAuthenticated) {
             fetchUserBookings();
         }
-    }, [userId, token, isAuthenticated]);
+    }, [userId, token, isAuthenticated, apiUrl]);
 
     const handlePayNow = (booking) => {
         navigate(`/ConfirmBooking/${booking._id}`, { 

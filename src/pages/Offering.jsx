@@ -29,6 +29,7 @@ const CreateOffering = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // Handle input changes
     const handleChange = (e) => {
@@ -55,7 +56,7 @@ const CreateOffering = () => {
             };
 
             // Call the API to create the offering
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/offering/add-offer`, {
+            const response = await fetch(`${apiUrl}/api/offering/add-offer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

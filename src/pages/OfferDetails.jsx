@@ -10,10 +10,11 @@ function OfferDetails() {
     const token = localStorage.getItem("token");
     const isAuthenticated = token !== null;
     const userType = localStorage.getItem("userType");
+    const [loading, setLoading] = useState(true);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // State management
     const [offer, setOffer] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
     const [showContactModal, setShowContactModal] = useState(false);
     const [statusMessage, setStatusMessage] = useState("");
@@ -28,9 +29,9 @@ function OfferDetails() {
     // Fetch offer details on load
     useEffect(() => {
         const fetchOfferDetails = async () => {
-            setIsLoading(true);
+            setLoading(true);
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/offering/get-offer/${offerId}`, {
+                const response = await fetch(`${apiUrl}/api/offering/get-offer/${offerId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -49,14 +50,14 @@ function OfferDetails() {
                 setError("Error fetching offer details.");
                 console.error("Error fetching offer details:", err);
             } finally {
-                setIsLoading(false);
+                setLoading(false);
             }
         };
 
         if (isAuthenticated && offerId) {
             fetchOfferDetails();
         }
-    }, [isAuthenticated, token, offerId]);
+    }, [isAuthenticated, token, offerId, apiUrl]);
 
     // Function to get tag color based on service type
     const getServiceTagColor = (serviceType) => {
@@ -88,7 +89,7 @@ function OfferDetails() {
     const handlebookOffer = async () => {
         try {
             const payload = { serviceId: offer._id, userId: localStorage.getItem("userId"), bookingType: "offer" };
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/add-booking`, {
+            const response = await fetch(`${apiUrl}/api/booking/add-booking`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -123,7 +124,7 @@ function OfferDetails() {
         }
     };
     
-    if (isLoading) {
+    if (loading) {
         return (
             <div style={styles.container}>
                 <LoadingSpinner message="Loading offer details..." />

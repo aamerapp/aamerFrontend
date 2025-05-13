@@ -26,6 +26,8 @@ function Requests() {
     const isAuthenticated = token !== null;
     const userType = localStorage.getItem("userType");
     const userId = localStorage.getItem("userId");
+    const [loading, setLoading] = useState(true);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // Authentication check
     useEffect(() => {
@@ -77,7 +79,7 @@ function Requests() {
             if (userType !== 'provider' || !userId) return;
             setIsLoading(true);
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/requests/get-requests?status=pending`, {
+                const response = await fetch(`${apiUrl}/api/requests/get-requests?status=pending`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -111,7 +113,7 @@ function Requests() {
             
             setIsMyRequestsLoading(true);
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/requests/get-user-requests/${userId}`, {
+                const response = await fetch(`${apiUrl}/api/requests/get-user-requests/${userId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -198,7 +200,7 @@ function Requests() {
         }
         const newRequestUpdated={...newRequest, userId: userId}
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/requests/post-request`, {
+            const response = await fetch(`${apiUrl}/api/requests/post-request`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
