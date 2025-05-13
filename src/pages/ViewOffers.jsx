@@ -16,12 +16,14 @@ function ViewOffers() {
     const [offers, setOffers] = useState([]);
     const [sortType, setSortType] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // ✅ Fetch offers from the backend
     useEffect(() => {
         const fetchOffers = async () => {
             try {
-                const response = await fetch("http://localhost:5003/api/view-offers", {
+                const response = await fetch(`${apiUrl}/api/view-offers`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -37,13 +39,15 @@ function ViewOffers() {
                 }
             } catch (err) {
                 setError("Error fetching offers.");
+            } finally {
+                setLoading(false);
             }
         };
 
         if (isAuthenticated) {
             fetchOffers();
         }
-    }, [isAuthenticated, token]);
+    }, [isAuthenticated, token, apiUrl]);
 
     // ✅ Sorting function
     const handleSort = (type) => {
@@ -78,7 +82,9 @@ function ViewOffers() {
 
             {/* ✅ Display Offers */}
             {error && <p style={styles.error}>{error}</p>}
-            {offers.length === 0 ? (
+            {loading ? (
+                <p style={styles.noOffers}>Loading offers...</p>
+            ) : offers.length === 0 ? (
                 <p style={styles.noOffers}>No offers available at the moment.</p>
             ) : (
                 <div style={styles.grid}>

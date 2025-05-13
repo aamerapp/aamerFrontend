@@ -33,7 +33,7 @@ function OfferRequests() {
         const fetchOfferRequests = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`http://localhost:5003/api/booking/get-booking/${offerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/get-booking/${offerId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ function OfferRequests() {
 
     const handleAcceptRequest = async (bookingId) => {
         try {
-            const response = await fetch(`http://localhost:5003/api/booking/confirm-booking-offering`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/confirm-booking-offering`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -83,7 +83,7 @@ function OfferRequests() {
             }
 
             // Refresh the data after status update
-            const updatedResponse = await fetch(`http://localhost:5003/api/booking/get-booking/${offerId}`, {
+            const updatedResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/get-booking/${offerId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -102,7 +102,7 @@ function OfferRequests() {
 
     const handleRejectRequest = async (bookingId) => {
         try {
-            const response = await fetch(`http://localhost:5003/api/booking/update-status/${bookingId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/update-status/${bookingId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -116,7 +116,7 @@ function OfferRequests() {
             }
 
             // Refresh the data after status update
-            const updatedResponse = await fetch(`http://localhost:5003/api/booking/get-booking/${offerId}`, {
+            const updatedResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/get-booking/${offerId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

@@ -9,6 +9,7 @@ function CompletedServices() {
     const userId = localStorage.getItem('userId');
     const userType = localStorage.getItem('userType');
     const isAuthenticated = token !== null;
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // State variables
     const [completedServices, setCompletedServices] = useState([]);
@@ -33,7 +34,7 @@ function CompletedServices() {
                 console.log("📌 Current user ID:", userId);
                 console.log("📌 Current user type:", userType);
                 
-                const response = await fetch("http://localhost:5003/api/booking/all-completed-bookings", {
+                const response = await fetch(`${apiUrl}/api/booking/all-completed-bookings`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -85,7 +86,7 @@ function CompletedServices() {
         if (isAuthenticated && userId && userType) {
             fetchCompletedServices();
         }
-    }, [userId, userType, isAuthenticated, token]);
+    }, [userId, userType, isAuthenticated, token, apiUrl]);
 
     // Fetch reviews for completed bookings
     useEffect(() => {
@@ -95,7 +96,7 @@ function CompletedServices() {
             try {
                 const bookingIds = completedServices.map(booking => booking._id);
                 const reviewPromises = bookingIds.map(bookingId => 
-                    fetch(`http://localhost:5003/api/reviews/booking/${bookingId}`, {
+                    fetch(`${apiUrl}/api/reviews/booking/${bookingId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -120,7 +121,7 @@ function CompletedServices() {
         };
 
         fetchReviews();
-    }, [isAuthenticated, token, completedServices]);
+    }, [isAuthenticated, token, completedServices, apiUrl]);
 
     // Handle review form input change
     const handleReviewChange = (e) => {
@@ -150,7 +151,7 @@ function CompletedServices() {
         try {
             console.log('Submitting review with token:', token.substring(0, 10) + '...');
             
-            const response = await fetch('http://localhost:5003/api/reviews', {
+            const response = await fetch(`${apiUrl}/api/reviews`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

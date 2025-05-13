@@ -45,6 +45,7 @@ const ChatWindow = ({ selectedChat, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const userId = localStorage.getItem('userId');
   const userType = localStorage.getItem('userType');
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (selectedChat) {
@@ -56,7 +57,7 @@ const ChatWindow = ({ selectedChat, onClose }) => {
   const fetchMessages = async (chatId) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:5003/api/message/get-messages/${chatId}`);
+      const response = await fetch(`${apiUrl}/api/message/get-messages/${chatId}`);
       const data = await response.json();
       setMessages(data);
     } catch (error) {
@@ -72,7 +73,7 @@ const ChatWindow = ({ selectedChat, onClose }) => {
     try {
       let response = "";
       if (userType == 'user'){
-        response = await fetch('http://localhost:5003/api/message/send-message', {
+        response = await fetch(`${apiUrl}/api/message/send-message`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +87,7 @@ const ChatWindow = ({ selectedChat, onClose }) => {
       });
     }
     else{
-        response = await fetch('http://localhost:5003/api/message/send-message', {
+        response = await fetch(`${apiUrl}/api/message/send-message`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -179,6 +180,7 @@ const ChatApplication = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const userType = localStorage.getItem('userType');
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -201,7 +203,7 @@ const ChatApplication = () => {
     try {
       if (userType === 'provider'){
         setIsLoading(true);
-        const response = await fetch('http://localhost:5003/api/chat/initiate-chat', {
+        const response = await fetch(`${apiUrl}/api/chat/initiate-chat`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -225,7 +227,7 @@ const ChatApplication = () => {
       }
       else {
         setIsLoading(true);
-        const response = await fetch('http://localhost:5003/api/chat/initiate-chat', {
+        const response = await fetch(`${apiUrl}/api/chat/initiate-chat`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -257,12 +259,12 @@ const ChatApplication = () => {
     try {
       setIsLoading(true);
       if (userType === 'provider') {
-        const response = await fetch(`http://localhost:5003/api/chat/get-chats/${localStorage.getItem('userId')}/provider`);
+        const response = await fetch(`${apiUrl}/api/chat/get-chats/${localStorage.getItem('userId')}/provider`);
         const data = await response.json();
         setChats(data);
       }
       else {
-        const response = await fetch(`http://localhost:5003/api/chat/get-chats/${localStorage.getItem('userId')}/user`);
+        const response = await fetch(`${apiUrl}/api/chat/get-chats/${localStorage.getItem('userId')}/user`);
         const data = await response.json();
         setChats(data);
       }

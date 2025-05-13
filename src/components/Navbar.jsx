@@ -8,6 +8,7 @@ function Navbar({ onLogout }) {
     const userType = localStorage.getItem("userType");
     const userId = localStorage.getItem("userId");  
     const isAuthenticated = token !== null;
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
@@ -23,7 +24,7 @@ function Navbar({ onLogout }) {
 
     const markAllAsRead = async () => {
         try {
-            const response = await fetch(`http://localhost:5003/api/notifications/mark-notifications-read/${userId}`, {
+            const response = await fetch(`${apiUrl}/api/notifications/mark-notifications-read/${userId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,7 +43,7 @@ function Navbar({ onLogout }) {
 
     const markNotificationRead = async (notificationId) => {
         try {
-            const response = await fetch(`http://localhost:5003/api/notifications/mark-notification-read/${notificationId}`, {
+            const response = await fetch(`${apiUrl}/api/notifications/mark-notification-read/${notificationId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -114,7 +115,7 @@ function Navbar({ onLogout }) {
 
         const fetchNotifications = async () => {
             try {
-                const response = await fetch(`http://localhost:5003/api/notifications/get-latest-notifications/${userId}`, {
+                const response = await fetch(`${apiUrl}/api/notifications/get-latest-notifications/${userId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

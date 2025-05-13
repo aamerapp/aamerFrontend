@@ -19,6 +19,7 @@ function SubmitOffer() {
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const apiUrl = import.meta.env.VITE_API_URL;
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
@@ -45,7 +46,7 @@ function SubmitOffer() {
         }
 
         try {
-            const response = await fetch("http://localhost:5003/api/submit-offer", {
+            const response = await fetch(`${apiUrl}/api/submit-offer`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

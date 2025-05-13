@@ -5,6 +5,7 @@ function EditProfile() {
     const navigate = useNavigate();
     const userType = localStorage.getItem("userType");
     const token = localStorage.getItem("token");
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // ✅ بيانات الحساب
     const [email, setEmail] = useState("");
@@ -17,12 +18,13 @@ function EditProfile() {
 
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
     // ✅ جلب بيانات المستخدم من الباك-إند عند تحميل الصفحة
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch("http://localhost:5003/profile", {
+                const response = await fetch(`${apiUrl}/profile`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -48,7 +50,7 @@ function EditProfile() {
         if (token) {
             fetchUserData();
         }
-    }, [token, userType]);
+    }, [token, userType, apiUrl]);
 
     // ✅ إرسال التعديلات إلى الباك-إند
     const handleSubmit = async (e) => {
@@ -57,7 +59,7 @@ function EditProfile() {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:5003/edit-profile", {
+            const response = await fetch(`${apiUrl}/edit-profile`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

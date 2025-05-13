@@ -5,6 +5,7 @@ function ForgotPassword() {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
@@ -13,7 +14,7 @@ function ForgotPassword() {
         setLoading(true);
 
         try {
-            const response = await fetch("http://localhost:5003/forgot-password", {
+            const response = await fetch(`${apiUrl}/forgot-password`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),

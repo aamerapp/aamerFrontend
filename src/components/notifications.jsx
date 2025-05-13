@@ -11,6 +11,7 @@ function Notifications() {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");  
     const isAuthenticated = token !== null;
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -20,7 +21,7 @@ function Notifications() {
 
         const fetchNotifications = async () => {
             try {
-                const response = await fetch(`http://localhost:5003/api/notifications/get-latest-notifications/${userId}`, {
+                const response = await fetch(`${apiUrl}/api/notifications/get-latest-notifications/${userId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -44,11 +45,11 @@ function Notifications() {
         const interval = setInterval(fetchNotifications, 30000);
 
         return () => clearInterval(interval);
-    }, [isAuthenticated, token, userId]);
+    }, [isAuthenticated, token, userId, apiUrl]);
 
     const markNotificationRead = async (notificationId) => {
         try {
-            const response = await fetch(`http://localhost:5003/api/notifications/mark-notification-read/${notificationId}`, {
+            const response = await fetch(`${apiUrl}/api/notifications/mark-notification-read/${notificationId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -70,7 +71,7 @@ function Notifications() {
 
     const markAllAsRead = async () => {
         try {
-            const response = await fetch(`http://localhost:5003/api/notifications/mark-notifications-read/${userId}`, {
+            const response = await fetch(`${apiUrl}/api/notifications/mark-notifications-read/${userId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

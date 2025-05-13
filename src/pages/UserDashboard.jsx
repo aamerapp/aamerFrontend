@@ -42,7 +42,7 @@ function UserDashboard() {
             setIsLoading(true);
             
             // Fetch user requests
-            const response = await fetch(`http://localhost:5003/api/requests/get-user-requests/${userId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/requests/get-user-requests/${userId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

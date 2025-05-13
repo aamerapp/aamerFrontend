@@ -11,6 +11,7 @@ function RequestDetails() {
     const token = localStorage.getItem("token");
     const isAuthenticated = token !== null;
     const userType = localStorage.getItem("userType");
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // State management
     const [request, setRequest] = useState(null);
@@ -31,7 +32,7 @@ function RequestDetails() {
         const fetchRequestDetails = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch(`http://localhost:5003/api/requests/get-request/${requestId}`, {
+                const response = await fetch(`${apiUrl}/api/requests/get-request/${requestId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -57,7 +58,7 @@ function RequestDetails() {
         if (isAuthenticated && requestId) {
             fetchRequestDetails();
         }
-    }, [isAuthenticated, token, requestId]);
+    }, [isAuthenticated, token, requestId, apiUrl]);
 
     // Function to get tag color based on service type
     const getServiceTagColor = (serviceType) => {
@@ -109,7 +110,7 @@ function RequestDetails() {
     const handleOfferService = async () => {
         try {
             const payload = { serviceId: request._id, userId: localStorage.getItem("userId"), bookingType: "request" };
-            const response = await fetch(`http://localhost:5003/api/booking/add-booking`, {
+            const response = await fetch(`${apiUrl}/api/booking/add-booking`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

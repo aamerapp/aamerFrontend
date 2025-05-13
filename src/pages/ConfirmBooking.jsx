@@ -52,12 +52,14 @@ function ConfirmBooking() {
     const [reviewLoading, setReviewLoading] = useState(false);
     const [bookingSuccess, setBookingSuccess] = useState(false);
 
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     // Fetch reviews for a provider
     const fetchReviews = useCallback(async (providerId) => {
         try {
             console.log("Fetching reviews for provider:", providerId);
             
-            const response = await fetch(`http://localhost:5003/api/reviews/provider/${providerId}`, {
+            const response = await fetch(`${apiUrl}/api/reviews/provider/${providerId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -87,7 +89,7 @@ function ConfirmBooking() {
     useEffect(() => {
         const fetchBookingDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5003/api/booking/get-booking-id/${bookingId}`, {
+                const response = await fetch(`${apiUrl}/api/booking/get-booking-id/${bookingId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -125,7 +127,7 @@ function ConfirmBooking() {
         setReviewLoading(true);
         
         try {
-            const response = await fetch(`http://localhost:5003/api/reviews/add-review`, {
+            const response = await fetch(`${apiUrl}/api/reviews/add-review`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -219,7 +221,7 @@ function ConfirmBooking() {
             // Only call confirm-booking API if not in payment-only mode
             if (!isPaymentOnly) {
                 // Booking confirmation API call
-                const bookingResponse = await fetch('http://localhost:5003/api/booking/confirm-booking', {
+                const bookingResponse = await fetch(`${apiUrl}/api/booking/confirm-booking`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -239,7 +241,7 @@ function ConfirmBooking() {
             }
 
             // Payment processing API call
-            const paymentResponse = await fetch('http://localhost:5003/api/payment', {
+            const paymentResponse = await fetch(`${apiUrl}/api/payment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

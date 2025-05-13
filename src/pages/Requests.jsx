@@ -77,7 +77,7 @@ function Requests() {
             if (userType !== 'provider' || !userId) return;
             setIsLoading(true);
             try {
-                const response = await fetch("http://localhost:5003/api/requests/get-requests?status=pending", {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/requests/get-requests?status=pending`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ function Requests() {
             
             setIsMyRequestsLoading(true);
             try {
-                const response = await fetch(`http://localhost:5003/api/requests/get-user-requests/${userId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/requests/get-user-requests/${userId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -198,7 +198,7 @@ function Requests() {
         }
         const newRequestUpdated={...newRequest, userId: userId}
         try {
-            const response = await fetch("http://localhost:5003/api/requests/post-request", {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/requests/post-request`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

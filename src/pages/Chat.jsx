@@ -11,6 +11,7 @@ function Chat() {
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [welcomeMessageShown, setWelcomeMessageShown] = useState(false);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // Predefined questions and responses
     const predefinedContent = {
@@ -88,7 +89,7 @@ function Chat() {
     useEffect(() => {
         // Fetch chat history
         setIsLoading(true);
-        fetch("http://localhost:5003/api/chat-history?limit=10")
+        fetch(`${apiUrl}/api/chat-history?limit=10`)
             .then((response) => response.json())
             .then((data) => {
                 console.log("✅ Loaded latest messages:", data);
@@ -118,7 +119,7 @@ function Chat() {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [welcomeMessageShown]);
+    }, []);
 
     useEffect(() => {
         autoScroll();
@@ -129,19 +130,20 @@ function Chat() {
         if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
     };
 
-    const loadMoreMessages = () => {
+    const loadMoreMessages = async () => {
         if (allLoaded) return;
 
-        fetch(`http://localhost:5003/api/chat-history?limit=10&offset=${messages.length}`)
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.length === 0) {
-                    setAllLoaded(true);
-                } else {
-                    setMessages((prevMessages) => [...data, ...prevMessages]);
-                }
-            })
-            .catch((error) => console.error("Error loading more messages:", error));
+        try {
+            const response = await fetch(`${apiUrl}/api/chat-history?limit=10&offset=${messages.length}`);
+            const data = await response.json();
+            if (data.length === 0) {
+                setAllLoaded(true);
+            } else {
+                setMessages(prev => [...prev, ...data]);
+            }
+        } catch (error) {
+            console.error('Error loading more messages:', error);
+        }
     };
 
     const formatTimestamp = () => {

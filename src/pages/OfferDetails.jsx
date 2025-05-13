@@ -30,7 +30,7 @@ function OfferDetails() {
         const fetchOfferDetails = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch(`http://localhost:5003/api/offering/get-offer/${offerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/offering/get-offer/${offerId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ function OfferDetails() {
     const handlebookOffer = async () => {
         try {
             const payload = { serviceId: offer._id, userId: localStorage.getItem("userId"), bookingType: "offer" };
-            const response = await fetch(`http://localhost:5003/api/booking/add-booking`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/add-booking`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

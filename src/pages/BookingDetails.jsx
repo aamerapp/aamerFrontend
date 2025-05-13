@@ -24,6 +24,7 @@ function BookingDetails({ requestName }) {
     const token = localStorage.getItem("token");
     const isAuthenticated = token !== null;
     const userId = localStorage.getItem("userId");
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const [bookingDetails, setBookingDetails] = useState(null);
     const [error, setError] = useState("");
@@ -46,7 +47,7 @@ function BookingDetails({ requestName }) {
 
         const fetchBookingDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5003/api/booking/get-booking/${serviceId}`, {
+                const response = await fetch(`${apiUrl}/api/booking/get-booking/${serviceId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -82,7 +83,7 @@ function BookingDetails({ requestName }) {
         };
 
         fetchBookingDetails();
-    }, [serviceId, isAuthenticated, navigate, token]);
+    }, [serviceId, isAuthenticated, navigate, token, apiUrl]);
     
     // Fetch reviews for a provider
     const fetchReviews = async (providerId) => {
@@ -91,7 +92,7 @@ function BookingDetails({ requestName }) {
             setReviewsError("");
             console.log("Fetching reviews for provider:", providerId);
             
-            const response = await fetch(`http://localhost:5003/api/reviews/provider/${providerId}`, {
+            const response = await fetch(`${apiUrl}/api/reviews/provider/${providerId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -129,7 +130,7 @@ function BookingDetails({ requestName }) {
         setReviewLoading(true);
         
         try {
-            const response = await fetch(`http://localhost:5003/api/reviews/add-review`, {
+            const response = await fetch(`${apiUrl}/api/reviews/add-review`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

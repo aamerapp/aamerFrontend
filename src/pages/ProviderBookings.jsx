@@ -22,7 +22,7 @@ function ProviderBookings() {
     useEffect(() => {
         const fetchProviderBookings = async () => {
             try {
-                const response = await fetch(`http://localhost:5003/api/booking/get-provider-bookings/${providerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/booking/get-provider-bookings/${providerId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,

@@ -18,6 +18,7 @@ function Signup() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const serviceOptions = [
         "Home Cleaning",
@@ -76,7 +77,7 @@ function Signup() {
         }
 
         try {
-            const response = await fetch("http://localhost:5003/api/auth/signup", {
+            const response = await fetch(`${apiUrl}/api/auth/signup`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ userType, ...formData }),

@@ -36,7 +36,7 @@ const MyServices = () => {
     const fetchOfferings = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`http://localhost:5003/api/offering/get-offers-by-provider/${userId}/${selectedStatus}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/offering/get-offers-by-provider/${userId}/${selectedStatus}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
